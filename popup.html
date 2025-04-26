@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Resumer</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Page Resumer</h1>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="summarize">Summarize</button>
+      <button class="tab-btn" data-tab="ask">Ask AI</button>
+      <button class="tab-btn" data-tab="history">History</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
+    </div>
+
+    <!-- Summarize Tab -->
+    <div class="tab-pane active" id="summarize">
+      <div class="action-area">
+        <button class="action-btn" id="generate-resume">Generate Resume</button>
+      </div>
+      <div class="result-area" id="summary-result">
+        <p class="placeholder">Click "Generate Resume" to summarize the current page.</p>
+      </div>
+      <div class="action-buttons">
+        <button class="secondary-btn" id="copy-summary">Copy</button>
+        <button class="secondary-btn" id="export-summary-pdf">Export PDF</button>
+      </div>
+    </div>
+
+    <!-- Ask AI Tab -->
+    <div class="tab-pane" id="ask">
+      <textarea id="question-input" placeholder="Ask a question about this page..."></textarea>
+      <div class="action-area">
+        <button class="action-btn" id="ask-ai">Ask AI</button>
+      </div>
+      <div class="result-area" id="answer-result">
+        <p class="placeholder">Ask a question to get an answer based on the page content.</p>
+      </div>
+      <div class="action-buttons">
+        <button class="secondary-btn" id="copy-answer">Copy</button>
+      </div>
+    </div>
+
+    <!-- History Tab -->
+    <div class="tab-pane" id="history">
+      <div class="history-area" id="history-list">
+        <p class="placeholder">No history yet.</p>
+      </div>
+      <div class="action-buttons">
+        <button class="secondary-btn" id="clear-history">Clear History</button>
+        <button class="secondary-btn" id="export-history-pdf">Export PDF</button>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-pane" id="settings">
+      <div class="settings-group">
+        <h3>API Key</h3>
+        <div class="input-group">
+          <input type="password" id="api-key-input" placeholder="Enter your Gemini API Key">
+          <button class="secondary-btn" id="save-api-key">Save</button>
+        </div>
+        <p class="help-text">You can get your API key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+      </div>
+
+      <div class="settings-group">
+        <h3>Language</h3>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="language" value="en" checked> English
+          </label>
+          <label>
+            <input type="radio" name="language" value="id"> Indonesian
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="overlay" id="loading">
+    <div class="spinner"></div>
+    <p>Processing...</p>
+  </div>
+
+  <!-- First-time setup overlay -->
+  <div class="overlay setup" id="setup-overlay">
+    <div class="setup-content">
+      <h2>Welcome to Page Resumer!</h2>
+      <p>To get started, please enter your Gemini API Key.</p>
+      <p>You can obtain an API key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</p>
+      <input type="text" id="setup-api-key" placeholder="Enter your Gemini API Key">
+      <button class="action-btn" id="complete-setup">Complete Setup</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <span id="toast-message"></span>
+  </div>
+
+  <script src="lib/jspdf.min.js"></script>
+  <script src="js/popup.js"></script>
+</body>
+</html>

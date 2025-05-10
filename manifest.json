@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Page Resumer",
-  "version": "1.0",
+  "name": "Page Resumer Pro",
+  "version": "1.0.0",
   "description": "Summarize web pages and ask questions using Gemini AI",
   "permissions": [
     "activeTab",
@@ -32,5 +32,14 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Q",
+        "mac": "Command+Q"
+      },
+      "description": "Open Page Resumer popup"
+    }
   }
 }

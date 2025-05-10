@@ -8,10 +8,20 @@
 </head>
 <body>
   <div class="container">
-    <header>
+    <header class="header-flex">
       <h1>Page Resumer</h1>
+      <div class="header-controls">
+        <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle dark/light mode">
+          <svg xmlns="http://www.w3.org/2000/svg" class="theme-icon light-icon" viewBox="0 0 24 24" width="18" height="18">
+            <path fill="currentColor" d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.4853 19.8995L19.8995 18.4853L18.364 16.9497L16.9497 18.364ZM19.8995 5.63604L18.4853 4.22183L16.9497 5.63604L18.364 7.05025L19.8995 5.63604ZM5.63604 16.9497L4.22183 18.364L5.63604 19.8995L7.05025 18.4853L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"></path>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="theme-icon dark-icon" viewBox="0 0 24 24" width="18" height="18">
+            <path fill="currentColor" d="M10 6C10 10.4183 13.5817 14 18 14C19.4386 14 20.7885 13.6203 21.9549 12.9556C21.4738 18.0302 17.2005 22 12 22C6.47715 22 2 17.5228 2 12C2 6.79948 5.9698 2.52616 11.0444 2.04507C10.3797 3.21152 10 4.56142 10 6ZM4 12C4 16.4183 7.58172 20 12 20C14.9654 20 17.5757 18.3788 18.9571 15.9546C18.6407 15.9848 18.3212 16 18 16C12.4772 16 8 11.5228 8 6C8 5.67879 8.01524 5.35931 8.04536 5.04290C5.62118 6.42432 4 9.03458 4 12Z"></path>
+          </svg>
+        </button>
+      </div>
     </header>
-
+    
     <div class="tabs">
       <button class="tab-btn active" data-tab="summarize">Summarize</button>
       <button class="tab-btn" data-tab="ask">Ask AI</button>
@@ -35,13 +45,42 @@
 
     <!-- Ask AI Tab -->
     <div class="tab-pane" id="ask">
+      <div class="conversation-context">
+        <div id="source-selector" class="hidden">
+          <label><input type="radio" name="source" value="page" checked> Use page content</label>
+          <label><input type="radio" name="source" value="summary"> Use summary</label>
+        </div>
+      </div>
+      
       <textarea id="question-input" placeholder="Ask a question about this page..."></textarea>
+      <div id="context-indicator" class="hidden">
+        <span>Conversation context: <span id="question-count">0</span> questions</span>
+        <button id="clear-context" class="small-btn">Clear Context</button>
+      </div>
+      
+      <div class="answer-style-selector">
+        <label for="answer-style">Answer style:</label>
+        <select id="answer-style">
+          <option value="standard">Standard</option>
+          <option value="simple">Simple language</option>
+          <option value="technical">Technical/detailed</option>
+          <option value="eli5">Explain like I'm 5</option>
+          <option value="code-focused">Code examples</option>
+        </select>
+      </div>
+      
       <div class="action-area">
         <button class="action-btn" id="ask-ai">Ask AI</button>
       </div>
+      
       <div class="result-area" id="answer-result">
         <p class="placeholder">Ask a question to get an answer based on the page content.</p>
       </div>
+      
+      <div id="conversation-history" class="hidden">
+        <!-- Conversation history will be dynamically inserted here -->
+      </div>
+      
       <div class="action-buttons">
         <button class="secondary-btn" id="copy-answer">Copy</button>
       </div>
@@ -49,6 +88,24 @@
 
     <!-- History Tab -->
     <div class="tab-pane" id="history">
+      <div class="history-controls">
+        <div class="search-container">
+          <input type="text" id="history-search" placeholder="Search history...">
+        </div>
+        <div class="filter-container">
+          <select id="history-website-filter">
+            <option value="all">All Websites</option>
+          </select>
+          <select id="history-tag-filter">
+            <option value="all">All Tags</option>
+          </select>
+          <select id="history-type-filter">
+            <option value="all">All Types</option>
+            <option value="summary">Summaries</option>
+            <option value="question">Questions</option>
+          </select>
+        </div>
+      </div>
       <div class="history-area" id="history-list">
         <p class="placeholder">No history yet.</p>
       </div>
@@ -70,6 +127,17 @@
       </div>
 
       <div class="settings-group">
+        <h3>Keyboard Shortcut</h3>
+        <p>Current shortcut: <code>Ctrl+Q</code> (Windows/Linux) / <code>Command+Q</code> (Mac)</p>
+        <p>To change this shortcut:</p>
+        <ol>
+          <li>Go to <code>chrome://extensions</code> in your browser</li>
+          <li>Click on "Keyboard shortcuts" at the bottom of the page</li>
+          <li>Find "Page Resumer" and customize the shortcut</li>
+        </ol>
+      </div>
+
+      <div class="settings-group">
         <h3>Language</h3>
         <div class="radio-group">
           <label>
@@ -81,6 +149,7 @@
         </div>
       </div>
     </div>
+    <p class="byline">by <a href="https://www.threads.com/@01produktif" target="_blank">@amymeij22</a></p>
   </div>
 
   <!-- Loading Overlay -->
